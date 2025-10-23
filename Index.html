@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT251 Quadratic Solver & Grading System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1, h2 {
+            color: #0056b3;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+        .container {
+            display: flex;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .tool-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .compute-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .compute-btn:hover {
+            background-color: #1e7e34;
+        }
+        .reset-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .reset-btn:hover {
+            background-color: #bd2130;
+        }
+        .result-area {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 50px;
+            background-color: #e9ecef;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ICT251 JS GitHub Activity - Web Tools</h1>
+    <p>This single-file web page contains the Quadratic Solver and the Grading System.</p>
+
+    <div class="container">
+        <div class="tool-box">
+            <h2>1) Quadratic Solver ($ax^2 + bx + c = 0$)</h2>
+            <div>
+                <label for="a">Input a:</label>
+                <input type="number" id="a" value="1">
+            </div>
+            <div>
+                <label for="b">Input b:</label>
+                <input type="number" id="b" value="-3">
+            </div>
+            <div>
+                <label for="c">Input c:</label>
+                <input type="number" id="c" value="2">
+            </div>
+            <button class="compute-btn" onclick="solveQuadratic()">Compute</button>
+            <button class="reset-btn" onclick="resetQuadratic()">Reset/Clear</button>
+            
+            <div class="result-area" id="quadratic-result">
+                Ready to solve!
+            </div>
+        </div>
+
+        <div class="tool-box">
+            <h2>2) Grading System</h2>
+            <div>
+                <label for="score">Input Score (0 - 100):</label>
+                <input type="number" id="score" min="0" max="100" placeholder="e.g., 78">
+            </div>
+            <button class="compute-btn" onclick="determineGrade()">Compute</button>
+            <button class="reset-btn" onclick="resetGrading()">Reset/Clear</button>
+            
+            <div class="result-area" id="grading-result">
+                Enter a score to get a grade.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===============================================
+        // 1) QUADRATIC SOLVER LOGIC
+        // ===============================================
+        function solveQuadratic() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+            const resultDiv = document.getElementById('quadratic-result');
+
+            // --- Validation ---
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                resultDiv.innerHTML = '<span class="error">Error: All inputs must be valid numbers.</span>';
+                return;
+            }
+            if (a === 0) {
+                resultDiv.innerHTML = '<span class="error">Error: \'a\' cannot be zero for a quadratic equation.</span>';
+                return;
+            }
+
+            // --- Calculation ---
+            const discriminant = b * b - 4 * a * c;
+
+            let resultHTML = `
+                <p><strong>Discriminant ($\Delta$):</strong> ${discriminant.toFixed(4)}</p>
+                <p><strong>Nature of roots:</strong> `;
+
+            if (discriminant > 0) {
+                // Two distinct real roots
+                const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                
+                resultHTML += `Two **distinct real roots**</p>
+                <p><strong>Root 1 ($x_1$):</strong> ${x1.toFixed(4)}</p>
+                <p><strong>Root 2 ($x_2$):</strong> ${x2.toFixed(4)}</p>`;
+                
+            } else if (discriminant === 0) {
+                // Two equal real roots
+                const x = -b / (2 * a);
+                
+                resultHTML += `Two **equal real roots**</p>
+                <p><strong>Root:</strong> ${x.toFixed(4)}</p>`;
+                
+            } else {
+                // Two complex conjugate roots (discriminant < 0)
+                const realPart = (-b / (2 * a)).toFixed(4);
+                const imaginaryPart = (Math.sqrt(Math.abs(discriminant)) / (2 * a)).toFixed(4);
+                
+                resultHTML += `Two **complex conjugate roots**</p>
+                <p><strong>Root 1 ($x_1$):</strong> ${realPart} + ${imaginaryPart}i</p>
+                <p><strong>Root 2 ($x_2$):</strong> ${realPart} - ${imaginaryPart}i</p>`;
+            }
+
+            resultDiv.innerHTML = resultHTML;
+        }
+
+        function resetQuadratic() {
+            document.getElementById('a').value = '';
+            document.getElementById('b').value = '';
+            document.getElementById('c').value = '';
+            document.getElementById('quadratic-result').innerHTML = 'Ready to solve!';
+        }
+
+        // ===============================================
+        // 2) GRADING SYSTEM LOGIC
+        // ===============================================
+        function determineGrade() {
+            const scoreInput = document.getElementById('score');
+            const score = parseInt(scoreInput.value);
+            const resultDiv = document.getElementById('grading-result');
+
+            // --- Validation ---
+            if (scoreInput.value === '') {
+                resultDiv.innerHTML = '<span class="error">Error: Score field cannot be empty.</span>';
+                return;
+            }
+            if (isNaN(score) || score < 0 || score > 100) {
+                resultDiv.innerHTML = '<span class="error">Error: Score must be a number between 0 and 100.</span>';
+                return;
+            }
+
+            let grade;
+            
+            // --- Grading Criteria ---
+            if (score >= 85) {
+                grade = 'A+';
+            } else if (score >= 75) {
+                grade = 'A';
+            } else if (score >= 65) {
+                grade = 'B+';
+            } else if (score >= 60) {
+                grade = 'B';
+            } else if (score >= 55) {
+                grade = 'C+';
+            } else if (score >= 50) {
+                grade = 'C';
+            } else if (score >= 49) { // Specific rule from the image (49 -> D)
+                grade = 'D';
+            } else { // $0 \rightarrow F$
+                grade = 'F';
+            }
+
+            resultDiv.innerHTML = `<p>Score of **${score}** corresponds to Grade: <strong style="color:#0056b3; font-size:1.2em;">${grade}</strong></p>`;
+        }
+
+        function resetGrading() {
+            document.getElementById('score').value = '';
+            document.getElementById('grading-result').innerHTML = 'Enter a score to get a grade.';
+        }
+        
+        // Optional: Run one solver on load for a clean initial state
+        // solveQuadratic(); // Uncomment to run quadratic solver on page load
+    </script>
+
+</body>
+</html>

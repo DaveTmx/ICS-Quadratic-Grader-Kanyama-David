@@ -10,10 +10,6 @@ Calculates the discriminant, determines the nature of the roots (distinct real, 
 ### 2. Grading System
 Converts a numerical score (0-100) into a letter grade based on defined thresholds (A+, A, B+, B, C+, C, D, F). Includes validation to ensure the score is within the required 0-100 range.
 
-## Screenshots
-
-*Insert a screenshot of your running `index.html` file here.*
-
 ## Test Cases
 
 ### Quadratic Solver Test Cases

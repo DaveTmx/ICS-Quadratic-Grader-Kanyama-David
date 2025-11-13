@@ -1,37 +1,57 @@
-# ICS-Quadratic-Grader-Kanyama-David
-## Project Description
-This project, developed for the ICT251 JS GitHub Activity, is a single-file web application (`index.html`) that implements two JavaScript-driven tools: a **Quadratic Equation Solver** and a **Grading System** calculator. The page runs entirely offline.
+# 🔬 Science Fair Projects Website
+This project is a single-page, static HTML file (index.html) serving as the main landing page for an annual Science Fair. It provides information about the event, lists project categories, showcases multimedia content (videos/audio), and includes a project submission form and interactive elements (Canvas and Geolocation).
 
-## Tools Implemented
+🚀 Key Features
+Navigation Menu: A responsive drop-down menu for accessing different parts of the site (Student Details, Project, Rules, Management Console, Exit).
 
-### 1. Quadratic Solver
-Calculates the discriminant, determines the nature of the roots (distinct real, equal real, or complex conjugate), and provides the value of the roots for any quadratic equation $ax^2 + bx + c = 0$. Includes validation for non-numeric input and the $a \neq 0$ condition.
+Project Catalog: A detailed table listing student groups, their project titles, and corresponding academic categories.
 
-### 2. Grading System
-Converts a numerical score (0-100) into a letter grade based on defined thresholds (A+, A, B+, B, C+, C, D, F). Includes validation to ensure the score is within the required 0-100 range.
+Multimedia Content: Embedded audio welcome message and multiple video presentations from Group Coordinators detailing expectations for different project categories.
 
-## Test Cases
+Interactive Elements:
 
-### Quadratic Solver Test Cases
+A Canvas element demonstrating basic graphics drawing.
 
-| a | b | c | Expected Discriminant | Expected Nature of Roots | Expected Roots (approx) |
-|---|---|---|---|---|---|
-| 1 | -3 | 2 | 1 | Distinct Real | x1=2.0000, x2=1.0000 |
-| 1 | -4 | 4 | 0 | Equal Real | x=2.0000 |
-| 1 | 2 | 5 | -16 | Complex Conjugate | -1.0000 + 2.0000i, -1.0000 - 2.0000i |
-| 0 | 5 | 1 | N/A | Error | "Error: 'a' cannot be zero..." |
+Geolocation feature to find and display the user's current latitude and longitude.
 
-### Grading System Test Cases
+Project Submission Form: A basic form to collect project metadata (Email, Demo URL, Date, Color).
 
-| Score | Expected Grade |
-|---|---|
-| 90 | A+ |
-| 85 | A+ |
-| 75 | A |
-| 74 | B+ |
-| 60 | B |
-| 50 | C |
-| 49 | D |
-| 48 | F |
-| -5 | Error |
-| 101 | Error |
+About Us Section: Provides background information and a contact link for the organizing team.
+
+📂 Project Structure
+This file assumes the following directory structure for the media and external CSS files referenced in the code:
+
+.
+├── index.html          (The provided code)
+├── css/
+│   └── style.css       (External stylesheet for layout and styling)
+├── assets/
+│   ├── imgs/
+│   │   └── SciencefairBanner.jpg
+│   ├── audio/
+│   │   └── Audio.html  (This should likely be an .mp3 or similar audio file)
+│   ├── video/
+│   │   ├── webtech presenter.mp4
+│   │   ├── Arctecturepresentor.html.mp4
+│   │   ├── Statisticspresenter.html.mp4
+│   │   ├── digitalDesignpresenter.html.mp4
+│   │   ├── Databasepresenter.html.mp4
+│   │   └── javapresentor.html.mp4
+└── pages/
+    ├── Studentdetails.html
+    ├── project.html
+    └── Rulesandcriteria.html
+💡 Technologies Used
+Technology	Purpose
+HTML5	Structure and content definition.
+CSS	Basic embedded styling and reliance on external style.css.
+JavaScript (Inline)	Handling the dropdown menu, drawing on the Canvas, and managing the Geolocation API (navigator.geolocation).
+
+Export to Sheets
+
+▶️ Running Locally
+Clone or Download: Get a copy of the index.html file and the required asset folders (as outlined above).
+
+Open in Browser: Simply open the index.html file in any modern web browser (e.g., Chrome, Firefox) by double-clicking it.
+
+Local Server Note: Links to the Science Fair Projects Management page point to a local host address (http://127.0.0.1:5501/...). To use this link, you must have the corresponding Node/MySQL CRUD application running locally on that port.

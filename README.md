@@ -1,340 +1,90 @@
-# 🔬 Science Fair Projects Website
-This project is a single-page, static HTML file (index.html) serving as the main landing page for an annual Science Fair. It provides information about the event, lists project categories, showcases multimedia content (videos/audio), and includes a project submission form and interactive elements (Canvas and Geolocation).
+🔬 Annual Science Fair Projects (Frontend & Management Console)
+
+This repository contains the front-end code for the Annual Science Fair, divided into two main components: the Public Website (for visitors and participants) and the Management Console (for administrators to perform CRUD operations on project data).
+
+💡 Overview
+
+This project is a two-part system designed to manage and display information for a student science fair:
+
+Main Website (index.html): The landing page provides general information, lists project categories, showcases coordinator videos, includes a basic project submission form, and features interactive elements (Canvas drawing and Geolocation).
+
+Management Console (Linked CRUD Interface): A separate application (referenced via a local link) that enables administrators to Create, Read, Update, and Delete project records using a form and a dynamic table. This console requires a running backend server.
 
 🚀 Key Features
-Navigation Menu: A responsive drop-down menu for accessing different parts of the site (Student Details, Project, Rules, Management Console, Exit).
 
-Project Catalog: A detailed table listing student groups, their project titles, and corresponding academic categories.
+Public Website Features (index.html)
 
-Multimedia Content: Embedded audio welcome message and multiple video presentations from Group Coordinators detailing expectations for different project categories.
+Responsive Navigation: Drop-down menu for accessing sub-pages (Student Details, Rules, Management).
 
-Interactive Elements:
+Project Catalog: Static table listing example project groups, titles, and categories.
 
-A Canvas element demonstrating basic graphics drawing.
+Multimedia Content: Embedded audio welcome message and video presentations from Group Coordinators.
 
-Geolocation feature to find and display the user's current latitude and longitude.
+Interactive Elements: Simple Canvas demonstration and a Geolocation feature to detect and display the user's coordinates.
 
-Project Submission Form: A basic form to collect project metadata (Email, Demo URL, Date, Color).
+Project Submission: A basic HTML form for submitting project details (requires a backend to process).
 
-About Us Section: Provides background information and a contact link for the organizing team.
+Management Console Features (CRUD Index)
+
+Project CRUD: Interface to add new projects and edit or delete existing ones.
+
+Data Fields: Supports data entry for Project Title, Student Name, Category, Grade Level, Judge's Score, Supervisor, and Project Abstract.
+
+Backend Integration: Designed to interact with a Node.js/MySQL (or similar) backend via API calls (indicated by the form structure and dependency on app.js).
 
 📂 Project Structure
-This file assumes the following directory structure for the media and external CSS files referenced in the code
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project File Tree Diagram</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom styles for the tree lines/icons */
-        .tree-node {
-            list-style: none;
-            padding-left: 20px;
-            position: relative;
-            line-height: 1.5;
-            cursor: pointer;
-        }
 
-        .tree-node::before {
-            content: ' ';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 20px;
-            border-left: 1px dashed #a0aec0; /* Border for vertical lines */
-        }
+The public-facing website assets are organized as follows:
 
-        .tree-node:last-child::before {
-            height: 16px; /* Stop vertical line at the last node */
-            bottom: auto;
-        }
-        
-        /* Icon positioning */
-        .tree-node-content {
-            display: flex;
-            align-items: center;
-        }
-
-        .tree-node-content i {
-            margin-right: 8px;
-            width: 16px; /* Fixed width for icon */
-            text-align: center;
-        }
-
-        /* Root node specific styling */
-        .tree-root {
-            padding-left: 0;
-        }
-        .tree-root::before {
-            content: none;
-        }
-    </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-</head>
-<body class="bg-gray-50 p-6 sm:p-10 font-sans">
-
-    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-6 md:p-8">
-        <h1 class="text-3xl font-extrabold text-indigo-600 mb-2">Project File Tree Visualizer</h1>
-        <p class="text-gray-600 mb-6">This interactive diagram is generated by parsing the provided file structure and displaying it in a collapsible tree format.</p>
-        
-        <div id="fileTreeContainer" class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-            <!-- Tree will be rendered here -->
-            <p id="loadingIndicator" class="text-center text-gray-500">Generating tree structure...</p>
-        </div>
-        
-        <div class="mt-8">
-            <h2 class="text-xl font-semibold text-gray-800 mb-3">Raw Structure Input</h2>
-            <pre class="bg-gray-800 text-green-400 p-4 rounded-lg overflow-x-auto text-sm shadow-inner">
 .
-├── index.html          (The provided code)
+├── index.html          (Main Public Website Landing Page)
 ├── css/
 │   └── style.css       (External stylesheet for layout and styling)
 ├── assets/
 │   ├── imgs/
 │   │   └── SciencefairBanner.jpg
 │   ├── audio/
-│   │   └── Audio.html  (This should likely be an .mp3 or similar audio file)
-│   ├── video/
+│   │   └── Audio.html  (Placeholder for audio file)
+│   ├── video/          (Coordinator presentation videos)
 │   │   ├── webtech presenter.mp4
 │   │   ├── Arctecturepresentor.html.mp4
-│   │   ├── Statisticspresenter.html.mp4
-│   │   ├── digitalDesignpresenter.html.mp4
-│   │   ├── Databasepresenter.html.mp4
-│   │   └── javapresentor.html.mp4
+│   │   └── ... (other video files)
 └── pages/
     ├── Studentdetails.html
     ├── project.html
     └── Rulesandcriteria.html
-            </pre>
-        </div>
-    </div>
-
-    <script>
-        // Use the structure provided in the project_file_structure.txt, slightly cleaned up for accurate parsing.
-        // NOTE: The lines are slightly adjusted here to ensure correct folder nesting (e.g., audio/ and video/ are correctly nested under assets/).
-        const rawFileStructure = `
-.
-├── index.html          (The provided code)
-├── css/
-│   └── style.css       (External stylesheet for layout and styling)
-├── assets/
-│   ├── imgs/
-│   │   └── SciencefairBanner.jpg
-│   ├── audio/
-│   │   └── Audio.html  (This should likely be an .mp3 or similar audio file)
-│   ├── video/
-│   │   ├── webtech presenter.mp4
-│   │   ├── Arctecturepresentor.html.mp4
-│   │   ├── Statisticspresenter.html.mp4
-│   │   ├── digitalDesignpresenter.html.mp4
-│   │   ├── Databasepresenter.html.mp4
-│   │   └── javapresentor.html.mp4
-└── pages/
-    ├── Studentdetails.html
-    ├── project.html
-    └── Rulesandcriteria.html
-        `.trim();
-
-        // Utility function to get the icon based on file name or folder status
-        function getIcon(name, isFolder, isExpanded) {
-            if (isFolder) {
-                return isExpanded 
-                    ? '<i class="text-yellow-600 fas fa-folder-open"></i>'
-                    : '<i class="text-yellow-500 fas fa-folder"></i>';
-            }
-            
-            // File icons based on common extensions
-            const lowerName = name.toLowerCase();
-            if (lowerName.endsWith('.html') || lowerName.endsWith('.htm')) {
-                return '<i class="text-red-500 fas fa-file-code"></i>';
-            }
-            if (lowerName.endsWith('.css')) {
-                return '<i class="text-blue-500 fas fa-file-alt"></i>';
-            }
-            if (lowerName.endsWith('.jpg') || lowerName.endsWith('.png') || lowerName.endsWith('.gif')) {
-                return '<i class="text-green-500 fas fa-file-image"></i>';
-            }
-            if (lowerName.endsWith('.mp4') || lowerName.endsWith('.mov')) {
-                return '<i class="text-purple-500 fas fa-file-video"></i>';
-            }
-            if (lowerName.endsWith('.mp3') || lowerName.endsWith('.wav') || lowerName.endsWith('.html')) { // Audio.html is likely audio
-                 return '<i class="text-cyan-500 fas fa-file-audio"></i>';
-            }
-            if (lowerName.endsWith('.txt') || lowerName.endsWith('.md')) {
-                return '<i class="text-gray-500 fas fa-file-alt"></i>';
-            }
-            return '<i class="text-gray-400 fas fa-file"></i>'; // Default file icon
-        }
-
-        // Main function to parse the raw text and build the HTML tree
-        function renderFileTree() {
-            const container = document.getElementById('fileTreeContainer');
-            const lines = rawFileStructure.split('\n').filter(line => line.trim().length > 0);
-            
-            if (lines.length === 0) {
-                container.innerHTML = '<p class="text-center text-red-500">Could not parse file structure.</p>';
-                return;
-            }
-
-            // Stack to keep track of the current parent <ul> element at each depth level
-            const stack = [];
-            
-            // Create the root <ul>
-            const rootUl = document.createElement('ul');
-            rootUl.className = 'space-y-1 text-gray-700';
-            container.innerHTML = '';
-            container.appendChild(rootUl);
-            
-            // Push the root <ul> onto the stack at "depth 0"
-            stack[0] = rootUl;
-            
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i];
-                
-                // 1. Determine depth (by checking the number of "visual" indentation characters)
-                // Use a reliable method: count the characters before the file name
-                const structureMatch = line.match(/^((\s*[\│\s]*[├──└──\s]*))([^\(]+)/);
-                if (!structureMatch) continue;
-
-                // The prefix includes spaces, pipes, and branch characters
-                const prefix = structureMatch[2];
-                // Approximate depth: 0 for '.', 1 for '├──', 2 for '│   ├──', etc.
-                // We use a simple count of non-space characters (|, ─, └, .)
-                let depth = (prefix.match(/[^\s.]/g) || []).length; 
-                // Adjust for the specific structure: 
-                // '.': depth 0, '├──': depth 1, '│   ├──': depth 2, '│   │   └──': depth 3
-                
-                // A simpler depth calculation based on length of pipe/space markers:
-                let currentDepth = 0;
-                if (line.match(/^├──/)) currentDepth = 1;
-                else if (line.match(/^└──/)) currentDepth = 1;
-                else if (line.match(/^│   ├──/)) currentDepth = 2;
-                else if (line.match(/^│   └──/)) currentDepth = 2;
-                else if (line.match(/^│   │   ├──/)) currentDepth = 3;
-                else if (line.match(/^│   │   └──/)) currentDepth = 3;
-                else if (line.match(/^│   │   │   ├──/)) currentDepth = 4;
-                else if (line.match(/^│   │   │   └──/)) currentDepth = 4;
-                else if (line.match(/^\./)) currentDepth = 0;
-                
-                // 2. Extract file/folder name (removing trailing commentary)
-                let name = structureMatch[3].trim().replace(/\s*\([^)]*\)$/, '');
-                
-                if (name === '') continue; // Skip empty lines after parsing
-
-                // 3. Determine if it's a folder (if it has children or ends with /)
-                // Look ahead to the next line. If the next line's depth is greater, it's a folder.
-                let isFolder = false;
-                if (i + 1 < lines.length) {
-                    const nextLine = lines[i + 1];
-                    let nextDepth = 0;
-                    if (nextLine.match(/^├──/)) nextDepth = 1;
-                    else if (nextLine.match(/^└──/)) nextDepth = 1;
-                    else if (nextLine.match(/^│   ├──/)) nextDepth = 2;
-                    else if (nextLine.match(/^│   └──/)) nextDepth = 2;
-                    else if (nextLine.match(/^│   │   ├──/)) nextDepth = 3;
-                    else if (nextLine.match(/^│   │   └──/)) nextDepth = 3;
-                    else if (nextLine.match(/^│   │   │   ├──/)) nextDepth = 4;
-                    else if (nextLine.match(/^│   │   │   └──/)) nextDepth = 4;
-                    else if (nextLine.match(/^\./)) nextDepth = 0;
-
-                    if (nextDepth > currentDepth) {
-                        isFolder = true;
-                    }
-                }
-                
-                if (name.endsWith('/')) { // Explicit folder notation
-                    isFolder = true;
-                    name = name.slice(0, -1);
-                }
-
-                // 4. Adjust the stack (current parent <ul>)
-                const parentUl = stack[currentDepth];
-                
-                if (!parentUl) {
-                    // This should not happen with a well-formed tree, but as a fallback:
-                    console.error("Malformed structure or stack issue at line:", line);
-                    continue; 
-                }
-
-                // 5. Create the list item (<li>)
-                const li = document.createElement('li');
-                li.className = `tree-node transition-all ${currentDepth === 0 ? 'tree-root' : ''}`;
-                
-                // 6. Content element for file/folder name
-                const contentSpan = document.createElement('span');
-                contentSpan.className = 'tree-node-content font-medium hover:text-indigo-600 transition-colors';
-                contentSpan.innerHTML = `${getIcon(name, isFolder, true)} ${name}`;
-
-                li.appendChild(contentSpan);
-
-                // 7. Handle Folder logic (collapsible)
-                if (isFolder) {
-                    contentSpan.classList.add('cursor-pointer');
-                    
-                    // Add the nested <ul> to the current <li> (it will be populated later)
-                    const nestedUl = document.createElement('ul');
-                    nestedUl.className = 'space-y-1 transition-all duration-200 ml-1 mt-1 border-l border-dashed border-gray-300';
-                    nestedUl.style.display = 'block'; // Start expanded
-                    li.appendChild(nestedUl);
-
-                    // Update the stack for the next, deeper level
-                    stack[currentDepth + 1] = nestedUl;
-                    
-                    // Add collapse/expand functionality
-                    contentSpan.addEventListener('click', () => {
-                        const isCurrentlyExpanded = nestedUl.style.display === 'block';
-                        nestedUl.style.display = isCurrentlyExpanded ? 'none' : 'block';
-                        contentSpan.innerHTML = getIcon(name, isFolder, !isCurrentlyExpanded) + ' ' + name;
-                    });
-                }
-                
-                // 8. Append the new <li> to the current parent <ul>
-                parentUl.appendChild(li);
-
-                // Clean up stack if we are moving back up (no need, as we use currentDepth index)
-            }
-        }
-
-        // Load Font Awesome for icons (used in getIcon)
-        const fontAwesomeLink = document.createElement('link');
-        fontAwesomeLink.rel = 'stylesheet';
-        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
-        document.head.appendChild(fontAwesomeLink);
-
-        // Run the rendering function once Font Awesome is likely loaded
-        document.getElementById('loadingIndicator').remove();
-        renderFileTree();
-
-    </script>
-</body>
-</html>
 
 
-💡 Technologies Used
-Technology	Purpose
-HTML5	Structure and content definition.
-CSS	Basic embedded styling and reliance on external style.css.
-JavaScript (Inline)	Handling the dropdown menu, drawing on the Canvas, and managing the Geolocation API (navigator.geolocation).
+🛠️ Technology Stack
 
-Export to Sheets
+Frontend: HTML5, CSS (Embedded & External style.css), Vanilla JavaScript
 
-▶️ Running Locally
-Clone or Download: Get a copy of the index.html file and the required asset folders (as outlined above).
+Management Console Dependency: HTML/CSS/JS (CRUD interface) which relies on a separate JavaScript file (app.js) and a live backend.
 
-Open in Browser: Simply open the index.html file in any modern web browser (e.g., Chrome, Firefox) by double-clicking it.
+Backend (External): The CRUD functionality links to a local host address (http://127.0.0.1:5501/node-mysql-crud/frontend/index.html), implying dependency on a separate Node.js/Express/MySQL application for data persistence.
 
-Local Server Note: Links to the Science Fair Projects Management page point to a local host address (http://127.0.0.1:5501/...). To use this link, you must have the corresponding Node/MySQL CRUD application running locally on that port.
+▶️ How to Run Locally
+
+1. Public Website (index.html)
+
+The main website is entirely static (with client-side JavaScript features).
+
+Clone this repository.
+
+Open the index.html file directly in your browser by double-clicking it.
+
+2. Management Console (CRUD)
+
+To use the Science Fair Projects Management link in the navigation menu, the linked backend service must be running.
+
+Set up the Backend: Ensure your separate Node/MySQL CRUD application is running and accessible at the specified address (e.g., http://127.0.0.1:5501/node-mysql-crud/frontend/).
+
+Access: Either click the link in the main navigation menu or open the corresponding index.html file for the CRUD console. Note: The CRUD interface will not function without the external API/database.
+
+📝 Troubleshooting & Known Issues
+
+Missing Assets: The site references external files (e.g., style.css, image, and video files in assets/). If these are not present in the correct relative paths, the page will not render fully.
+
+CRUD Link: The navigation link to the management console points to a hardcoded local URL (http://127.0.0.1:5501/...). This must be adjusted if your local server runs on a different port or path.
+
+Audio/Video Sources: Some video sources use .html.mp4 extensions (e.g., Arctecturepresentor.html.mp4), which may be incorrectly named. Verify the actual file extensions if media playback fails.

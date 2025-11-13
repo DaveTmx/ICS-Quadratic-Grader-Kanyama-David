@@ -19,7 +19,7 @@ Project Submission Form: A basic form to collect project metadata (Email, Demo U
 About Us Section: Provides background information and a contact link for the organizing team.
 
 📂 Project Structure
-This file assumes the following directory structure for the media and external CSS files referenced in the code:
+This file assumes the following directory structure for the media and external CSS files referenced in the code
 
 .
 ├── index.html          (The provided code)
@@ -41,6 +41,8 @@ This file assumes the following directory structure for the media and external C
     ├── Studentdetails.html
     ├── project.html
     └── Rulesandcriteria.html
+
+
 💡 Technologies Used
 Technology	Purpose
 HTML5	Structure and content definition.
